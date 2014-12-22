@@ -1,0 +1,17 @@
+<div class="jumbotron">
+  <h1> Welcome to gReddit!</h1>
+</div>
+
+<h3> Recent Posts</h3>
+
+
+<% @posts.each do |post| %>
+  <div class="well">
+    <%= link_to "Edit", edit_post_path(post), class: "pull-right btn btn-default", id: "edit-post-#{post.id}-action" %>
+    <%= link_to "Delete",post_path(post), method: :delete, data: {confirm: "Are you sure?"}, class: "pull-right btn btn-default", id: "delete-post-#{post.id}-action" %>
+    <h4><%=link_to "#{post.title}", post_path(post), id: "show-post-#{post.id}-action" %></h4>
+    <p><%= post.content %></p>
+  </div>
+<% end %>
+
+<%= link_to "Write New Post", new_post_path, class: "btn btn-primary", id: "new-post-action" %>
