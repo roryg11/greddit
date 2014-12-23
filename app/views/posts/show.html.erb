@@ -1,4 +1,13 @@
 <div class="well">
   <h1><%="#{@post.title}" %></h1>
   <p><%="#{@post.content}"%></p>
+  <% @post.comments.each do |comment| %>
+    <div class="well">
+      <%= comment.content %>
+      <%= comment.user %>
+      <%= link_to "Edit", edit_post_comment_path(@post, comment), id: "edit-comment-#{comment.id}-action" %>
+      <%= link_to "Delete", post_comment_path(@post, comment), method: :delete, id:"delete-comment-#{comment.id}-action" %>
+    </div>
+  <% end %>
+  <%= link_to "Add Comment", new_post_comment_path(@post), id: "add-comment-to-post-#{@post.id}-action" %>
 </div>
