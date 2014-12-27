@@ -7,7 +7,7 @@
 
 <% @posts.each do |post| %>
   <div class="well">
-    <% if current_user.id == post.user_id  %>
+    <% if current_user && current_user.id  == post.user_id  %>
       <%= link_to "Edit", edit_post_path(post), class: "pull-right btn btn-default", id: "edit-post-#{post.id}-action" %>
       <%= link_to "Delete",post_path(post), method: :delete, data: {confirm: "Are you sure?"}, class: "pull-right btn btn-default", id: "delete-post-#{post.id}-action" %>
     <% end  %>

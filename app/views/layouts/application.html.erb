@@ -24,7 +24,7 @@
         </div>
           <ul class="nav navbar-nav navbar-right">
             <%if current_user  %>
-              <li> <%= "Welcome, #{current_user.username}" %></li>
+              <li><a href = #> Welcome, <%= "#{current_user.username}" %></a></li>
               <li> <%= link_to "Sign Out", signout_path, id: "signout-action" %></li>
             <% else %>
               <li> <%= link_to "Sign Up", signup_path  %></li>
@@ -37,12 +37,13 @@
   </div>
 
 
+<div class="container">
   <% if notice %>
-    <div class="container alert alert-success">
-      <%= notice %>
-    </div>
+  <div class="container alert alert-success">
+    <%= notice %>
+  </div>
   <% end %>
-
+</div>
 
 
 <div class="container">

@@ -1,6 +1,5 @@
-<h1>Add a Comment</h1>
+<div class="page-header">
+  <h1>Add a Comment</h1>
+</div>
 
-<%= form_for([@post, @comment]) do |f| %>
-  <%= f.text_area :content, placeholder: "Comment" %>
-  <%= f.submit "Add Comment", id:"submit-comment-action"%>
-<% end %>
+<%= render 'form' %>
