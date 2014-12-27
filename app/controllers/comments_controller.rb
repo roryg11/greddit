@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_post
+  before_action :set_post, :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
 
   def new
     @comment = @post.comments.new
@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment= @post.comments.new(comment_params)
+    @comment.user_id = current_user.id
     if @comment.save
       redirect_to post_path(@post)
       flash[:notice] = "Comment succcessfully added."

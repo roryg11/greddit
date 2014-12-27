@@ -9,7 +9,7 @@
   <div class="well">
     <%= link_to "Edit", edit_post_path(post), class: "pull-right btn btn-default", id: "edit-post-#{post.id}-action" %>
     <%= link_to "Delete",post_path(post), method: :delete, data: {confirm: "Are you sure?"}, class: "pull-right btn btn-default", id: "delete-post-#{post.id}-action" %>
-    <h4><%=link_to "#{post.title}", post_path(post), id: "show-post-#{post.id}-action" %></h4>
+    <h4><%=link_to "#{post.title}", post_path(post), id: "show-post-#{post.id}-action" %></h4><%= "posted by #{post.user.username} -- at #{(post.created_at).strftime("%A %b %d at %H:%M")}" %>
     <p><%= post.content %></p>
   </div>
 <% end %>

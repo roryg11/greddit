@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
+
 
   def index
     @posts = Post.all
@@ -10,6 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
     if @post.save
       redirect_to root_path
       flash[:notice] = "Post successfully submitted."
@@ -51,6 +54,7 @@ class PostsController < ApplicationController
     params.require(:post).permit(
       :title,
       :content,
+      :user_id,
     )
   end
 
