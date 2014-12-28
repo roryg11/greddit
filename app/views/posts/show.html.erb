@@ -1,10 +1,10 @@
 <div class="well">
   <h1><%="#{@post.title}" %></h1>
-  <p> <%= "posted by #{@post.user.username} at -- #{@post.created_at.strftime("%b %d, %Y %H:%M")}" %></p>
+  <p> <%= "posted by #{@post.user.username} on #{@post.created_at.strftime("%b %d, %Y at %H:%M")}" %></p>
   <p><%="#{@post.content}"%></p>
   <% @post.comments.each do |comment| %>
     <div class="well">
-      <p>posted by -- <%= comment.user.username %> at <%= comment.created_at.strftime("%b %d, %Y %H:%M") %> </p>
+      <p>posted by <%= comment.user.username %> on <%= comment.created_at.strftime("%b %d, %Y at %H:%M") %> </p>
       <%= comment.content %>
       <% if current_user && current_user.id == comment.user_id  %>
         <p><%= link_to "Edit", edit_post_comment_path(@post, comment), id: "edit-comment-#{comment.id}-action" %> | <%= link_to "Delete", post_comment_path(@post, comment), method: :delete, id:"delete-comment-#{comment.id}-action" %></p>
