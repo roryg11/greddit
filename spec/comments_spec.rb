@@ -135,11 +135,94 @@ feature 'CRUDing comments' do
 end
 
 feature "When user is not signed in" do
-  scenario 'User cannot add comments'
-  scenario 'User cannot edit or delete comments'
+  scenario 'User cannot add comments' do
+
+    patti = User.create!(
+    username: "patti",
+    email: "patti@Bob.com",
+    password: "patti",
+    password_confirmation: "patti"
+    )
+
+    post = Post.create!(
+    title: "Reddit sucks",
+    content: "Reddit is just a stream of silly information.",
+    user_id: "#{patti.id}"
+    )
+
+    visit root_path
+    click_on "show-post-#{post.id}-action"
+    click_on "add-comment-to-post-#{post.id}-action"
+
+    expect(page).to have_content("You must be signed in to do that.")
+  end
+  scenario 'User cannot edit or delete comments that do not belong to them' do
+
+    patti = User.create!(
+    username: "patti",
+    email: "patti@Bob.com",
+    password: "patti",
+    password_confirmation: "patti"
+    )
+
+    post = Post.create!(
+    title: "Reddit sucks",
+    content: "Reddit is just a stream of silly information.",
+    user_id: "#{patti.id}"
+    )
+
+    comment = Comment.create!(
+    content: "I'm not sure. I think I like Reddit better.",
+    post_id: "#{post.id}",
+    user_id: "#{patti.id}"
+    )
+
+    visit root_path
+    click_on "show-post-#{post.id}-action"
+
+    expect(page).to have_no_content("Edit")
+    expect(page).to have_no_content("Delete")
+  end
 end
 
 
 feature 'User can only edit their own content' do
-  scenario 'User cannot edit or delete comments belonging to anther user'
+  scenario 'User cannot edit or delete comments belonging to another user' do
+    patti = User.create!(
+    username: "patti",
+    email: "patti@Bob.com",
+    password: "patti",
+    password_confirmation: "patti"
+    )
+
+    bob = User.create!(
+    username: "Bob",
+    email: "Bob@Bob.com",
+    password: "bob",
+    password_confirmation: "bob"
+    )
+
+    post = Post.create!(
+    title: "Reddit sucks",
+    content: "Reddit is just a stream of silly information.",
+    user_id: "#{patti.id}"
+    )
+
+    comment = Comment.create!(
+    content: "I'm not sure. I think I like Reddit better.",
+    post_id: "#{post.id}",
+    user_id: "#{patti.id}"
+    )
+
+    visit root_path
+    click_on 'sign-in-form'
+    fill_in "E-mail", with: "Bob@Bob.com"
+    fill_in "Password", with: "bob"
+    click_on "signin-submit-action"
+
+    click_on "show-post-#{post.id}-action"
+
+    expect(page).to have_no_content("Edit")
+    expect(page).to have_no_content("Delete")
+  end
 end
